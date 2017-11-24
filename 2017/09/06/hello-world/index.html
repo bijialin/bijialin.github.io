@@ -109,25 +109,21 @@
 </header>
 
     <div id="article-banner">
-  <h2>Hello World</h2>
-  <p class="post-date">2017-09-06</p>
+  <h2><%- page.title %></h2>
+  <p class="post-date"><%- date(page.date, "YYYY-MM-DD") %></p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-</section>
-    
+    <section class="markdown-content"><%- page.content %></section>
+    <% if (page.tags && page.tags.length) { %>
+      <div class="tags">
+        <span>Tags:</span>
+        <%- partial('_partial/tag', { tags: page.tags }) %>
+      </div>
+    <% } %>
     <div class="money-like">
       <div class="reward-btn">
         赏
@@ -148,19 +144,21 @@
       <canvas id="share-qrcode"></canvas>
       <p class="notice">扫描二维码，分享此文章</p>
     </div>
-    
+    <% if (theme.gitment_owner) { %>
+      <div id="comments"></div>
+    <% } else { %>
       <!-- UY BEGIN -->
       <div id="uyan_frame"></div>
       <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
       <!-- UY END -->
-    
+    <% } %>
   </article>
 </main>
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2017/09/06/hello-world/';
-    var banner = ''
+    var url = '<%= config.url %>/<%= page.path %>';
+    var banner = '<%= page.banner %>'
     if (banner !== 'undefined') {
       $('#article-banner').css({
         'background-image': 'url(' + banner + ')'
@@ -207,15 +205,15 @@
     });
 
     // gitment
-    var gitmentConfig = "";
+    var gitmentConfig = "<%= theme['gitment_owner'] %>";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "Hello World",
-        owner: "",
-        repo: "",
+        id: "<%- page.title %>",
+        owner: "<%= theme['gitment_owner'] %>",
+        repo: "<%= theme['gitment_repo'] %>",
         oauth: {
-          client_id: "",
-          client_secret: ""
+          client_id: "<%= theme['gitment_oauth_id'] %>",
+          client_secret: "<%= theme['gitment_oauth_secret'] %>"
         },
         theme: {
           render(state, instance) {

@@ -109,77 +109,21 @@
 </header>
 
     <div id="article-banner">
-  <h2>mac下idea的安装及开发环境的配置</h2>
-  <p class="post-date">2017-11-24</p>
+  <h2><%- page.title %></h2>
+  <p class="post-date"><%- date(page.date, "YYYY-MM-DD") %></p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><h2 id="一-idea安装"><a href="#一-idea安装" class="headerlink" title="一.idea安装"></a>一.idea安装</h2><h4 id="1-首先去idea官网下载安装包"><a href="#1-首先去idea官网下载安装包" class="headerlink" title="1.首先去idea官网下载安装包"></a>1.首先去<a href="https://www.jetbrains.com/idea/download/#section=mac" target="_blank" rel="external">idea官网下载</a>安装包</h4><p><img src="http://upload-images.jianshu.io/upload_images/6895862-d7d383de19805672.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt="image.png"></p>
-<h4 id="2-打开安装包进行安装"><a href="#2-打开安装包进行安装" class="headerlink" title="2.打开安装包进行安装"></a>2.打开安装包进行安装</h4><p><img src="http://upload-images.jianshu.io/upload_images/6895862-15f578f70dc93ddc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h5 id="3-安装完成后打开idea"><a href="#3-安装完成后打开idea" class="headerlink" title="3.安装完成后打开idea"></a>3.安装完成后打开idea</h5><p><img src="http://upload-images.jianshu.io/upload_images/6895862-1e08424d74e5e362.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h5 id="4-不导入配置文件"><a href="#4-不导入配置文件" class="headerlink" title="4.不导入配置文件"></a>4.不导入配置文件</h5><p><img src="http://upload-images.jianshu.io/upload_images/6895862-9ddb71f7bb5b5b25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt="image.png"></p>
-<h4 id="5-激活注册"><a href="#5-激活注册" class="headerlink" title="5.激活注册"></a>5.激活注册</h4><h6 id="在这里我们选择LicensServer方式激活，也可以自行搜索其他激活方式，选择任一License地址进行激活："><a href="#在这里我们选择LicensServer方式激活，也可以自行搜索其他激活方式，选择任一License地址进行激活：" class="headerlink" title="在这里我们选择LicensServer方式激活，也可以自行搜索其他激活方式，选择任一License地址进行激活："></a>在这里我们选择LicensServer方式激活，也可以自行搜索其他激活方式，选择任一License地址进行激活：</h6><pre><code>http://intellij.mandroid.cn/
-    http://idea.imsxm.com/
-        http://idea.iteblog.com/key.php
-</code></pre><h6 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h6><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-21806d4594cc544a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h5 id="6-选择idea主题"><a href="#6-选择idea主题" class="headerlink" title="6.选择idea主题"></a>6.选择idea主题</h5><h6 id="剩下就是一路next直到初始化完成"><a href="#剩下就是一路next直到初始化完成" class="headerlink" title="剩下就是一路next直到初始化完成"></a>剩下就是一路next直到初始化完成</h6><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-435e12d983dfd8ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h6 id="初始化完成"><a href="#初始化完成" class="headerlink" title="初始化完成"></a>初始化完成</h6><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-f86c5f3e7e4edb90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h2 id="二-下载jdk"><a href="#二-下载jdk" class="headerlink" title="二.下载jdk"></a>二.下载jdk</h2><h4 id="1-sun官网传送门选择相应版本进行下载，此处以jdk9为例"><a href="#1-sun官网传送门选择相应版本进行下载，此处以jdk9为例" class="headerlink" title="1.sun官网传送门选择相应版本进行下载，此处以jdk9为例"></a><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="external">1.sun官网传送门</a>选择相应版本进行下载，此处以jdk9为例</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-a13e9b09b4457508.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500) 
-</code></pre><h4 id="2-选择与系统相匹配的版本"><a href="#2-选择与系统相匹配的版本" class="headerlink" title="2.选择与系统相匹配的版本"></a>2.选择与系统相匹配的版本</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-3b5a899be38c63b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="3-打开安装包进行jdk安装"><a href="#3-打开安装包进行jdk安装" class="headerlink" title="3.打开安装包进行jdk安装"></a>3.打开安装包进行jdk安装</h4><h5 id="一路点击安装、继续就行，不用设置其他东西"><a href="#一路点击安装、继续就行，不用设置其他东西" class="headerlink" title="一路点击安装、继续就行，不用设置其他东西"></a>一路点击安装、继续就行，不用设置其他东西</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-37aa597139547a5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="终极奥义，看到这个就ok了"><a href="#终极奥义，看到这个就ok了" class="headerlink" title="终极奥义，看到这个就ok了"></a>终极奥义，看到这个就ok了</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-5b796e10e8755571.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h2 id="三-下载tomcat"><a href="#三-下载tomcat" class="headerlink" title="三.下载tomcat"></a>三.下载tomcat</h2><h5 id="1-apache传送门选择你要下载的tomcat版本进行下载，这里以tomcat9为例"><a href="#1-apache传送门选择你要下载的tomcat版本进行下载，这里以tomcat9为例" class="headerlink" title="1.apache传送门选择你要下载的tomcat版本进行下载，这里以tomcat9为例"></a>1.<a href="http://tomcat.apache.org/" target="_blank" rel="external">apache传送门</a>选择你要下载的tomcat版本进行下载，这里以tomcat9为例</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-f6149501bd79b1dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="2-选择系统对应版本的压缩包，这里我下载的是zip"><a href="#2-选择系统对应版本的压缩包，这里我下载的是zip" class="headerlink" title="2.选择系统对应版本的压缩包，这里我下载的是zip"></a>2.选择系统对应版本的压缩包，这里我下载的是zip</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-235203f6a90a7b60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="3-点击tomcat压缩文件解压-命令行什么的您随意-，然后将tomcat文件移动到-应用程序中-这个只是个人习惯，爱哪儿哪随便放，到时候找得到就行，这样tomcat就下载好了"><a href="#3-点击tomcat压缩文件解压-命令行什么的您随意-，然后将tomcat文件移动到-应用程序中-这个只是个人习惯，爱哪儿哪随便放，到时候找得到就行，这样tomcat就下载好了" class="headerlink" title="3.点击tomcat压缩文件解压(命令行什么的您随意)，然后将tomcat文件移动到 应用程序中,这个只是个人习惯，爱哪儿哪随便放，到时候找得到就行，这样tomcat就下载好了"></a>3.点击tomcat压缩文件解压(命令行什么的您随意)，然后将tomcat文件移动到 <a href="">应用程序</a>中,这个只是个人习惯，爱哪儿哪随便放，到时候找得到就行，这样tomcat就下载好了</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-110f5243c54f5ef5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h2 id="四-下载maven"><a href="#四-下载maven" class="headerlink" title="四.下载maven"></a>四.下载maven</h2><h4 id="1-apache传送门"><a href="#1-apache传送门" class="headerlink" title="1.apache传送门"></a>1.<a href="http://maven.apache.org/" target="_blank" rel="external">apache</a>传送门</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-b207f63b1e6b29fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="2-选择系统相对应的压缩包，这里以zip为例"><a href="#2-选择系统相对应的压缩包，这里以zip为例" class="headerlink" title="2.选择系统相对应的压缩包，这里以zip为例"></a>2.选择系统相对应的压缩包，这里以zip为例</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-09b22dc3176ff1a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="3-解压maven，然后移动到应用程序中，操作跟tomcat一致，不再赘述"><a href="#3-解压maven，然后移动到应用程序中，操作跟tomcat一致，不再赘述" class="headerlink" title="3.解压maven，然后移动到应用程序中，操作跟tomcat一致，不再赘述"></a>3.解压maven，然后移动到<a href="">应用程序</a>中，操作跟tomcat一致，不再赘述</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-7dda90a44b36b0ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h2 id="五-配置idea"><a href="#五-配置idea" class="headerlink" title="五.配置idea"></a>五.配置idea</h2><h4 id="1-点击Configure，然后选择Preferences"><a href="#1-点击Configure，然后选择Preferences" class="headerlink" title="1.点击Configure，然后选择Preferences"></a>1.点击Configure，然后选择Preferences</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-ce53ee77a7c50ca4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="2-一般设置，字体，字号，间距"><a href="#2-一般设置，字体，字号，间距" class="headerlink" title="2.一般设置，字体，字号，间距"></a>2.一般设置，字体，字号，间距</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-3e61af42a740e83f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="3-设置maven位置：在查询框中输入“maven”选择应用程序中的地址-点击apply进行设置"><a href="#3-设置maven位置：在查询框中输入“maven”选择应用程序中的地址-点击apply进行设置" class="headerlink" title="3.设置maven位置：在查询框中输入“maven”选择应用程序中的地址,点击apply进行设置"></a>3.设置maven位置：在查询框中输入“maven”选择<a href="">应用程序</a>中的地址,点击apply进行设置</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-76ccbfb8bad66b1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="4-git设置，这里就不再赘述，给个mac-git安装传送门"><a href="#4-git设置，这里就不再赘述，给个mac-git安装传送门" class="headerlink" title="4.git设置，这里就不再赘述，给个mac git安装传送门"></a>4.git设置，这里就不再赘述，给个<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000" target="_blank" rel="external">mac git安装传送门</a></h4><h4 id="5-代码提示大小写忽略：搜索框搜索“Code-Completion”然后选择None即可"><a href="#5-代码提示大小写忽略：搜索框搜索“Code-Completion”然后选择None即可" class="headerlink" title="5.代码提示大小写忽略：搜索框搜索“Code Completion”然后选择None即可"></a>5.代码提示大小写忽略：搜索框搜索“Code Completion”然后选择None即可</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-47157b3bef5a1ab9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="6-开启自动编译：搜索框输入“-Compiler”，选择Build、Execution里面的build-project-automatically"><a href="#6-开启自动编译：搜索框输入“-Compiler”，选择Build、Execution里面的build-project-automatically" class="headerlink" title="6.开启自动编译：搜索框输入“ Compiler”，选择Build、Execution里面的build project automatically"></a>6.开启自动编译：搜索框输入“ Compiler”，选择Build、Execution里面的build project automatically</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-315a79fa8121a0b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h2 id="六-创建个web项目设置tomcat实例"><a href="#六-创建个web项目设置tomcat实例" class="headerlink" title="六.创建个web项目设置tomcat实例"></a>六.创建个web项目设置tomcat实例</h2><h4 id="创建web项目"><a href="#创建web项目" class="headerlink" title="创建web项目"></a>创建web项目</h4><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-b54993cfcc6582e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="1-选择maven-然后勾选create-from-archetype，选择maven-archetype-webapp创建web项目"><a href="#1-选择maven-然后勾选create-from-archetype，选择maven-archetype-webapp创建web项目" class="headerlink" title="1.选择maven 然后勾选create from archetype，选择maven-archetype-webapp创建web项目"></a>1.选择maven 然后勾选create from archetype，选择maven-archetype-webapp创建web项目</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-263dab7da08b4fa9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="2-输入项目名称-选择项目创建地址，next就可以创建一个web项目"><a href="#2-输入项目名称-选择项目创建地址，next就可以创建一个web项目" class="headerlink" title="2.输入项目名称,选择项目创建地址，next就可以创建一个web项目"></a>2.输入项目名称,选择项目创建地址，next就可以创建一个web项目</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-4a93c42b1533c3b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="3-自动加载jar包：选择Enable-Auto-import"><a href="#3-自动加载jar包：选择Enable-Auto-import" class="headerlink" title="3.自动加载jar包：选择Enable Auto-import"></a>3.自动加载jar包：选择Enable Auto-import</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-79af899a6995b1e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h5 id="4-点击左下角图标切换到project视图"><a href="#4-点击左下角图标切换到project视图" class="headerlink" title="4.点击左下角图标切换到project视图"></a>4.点击左下角图标切换到project视图</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-3b224f6e345b3320.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h5 id="切换后视图"><a href="#切换后视图" class="headerlink" title="切换后视图"></a>切换后视图</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-3d5d35cd7664539a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="设置tomcat配置及实例"><a href="#设置tomcat配置及实例" class="headerlink" title="设置tomcat配置及实例"></a>设置tomcat配置及实例</h4><h6 id="1-点击右上角添加tomcat实例"><a href="#1-点击右上角添加tomcat实例" class="headerlink" title="1.点击右上角添加tomcat实例"></a>1.点击右上角添加tomcat实例</h6><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-b011d8f5288762ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h5 id="2-点击default设置向下滑动找到“Tomcat-server”-选择local-点击application-server设置tomcat"><a href="#2-点击default设置向下滑动找到“Tomcat-server”-选择local-点击application-server设置tomcat" class="headerlink" title="2.点击default设置向下滑动找到“Tomcat server” 选择local 点击application server设置tomcat"></a>2.点击default设置向下滑动找到“Tomcat server” 选择local 点击application server设置tomcat</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-0bd68c814fdaa687.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![image.png](http://upload-images.jianshu.io/upload_images/6895862-9fb7210cfa16ee5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500) 
-</code></pre><h5 id="3-点击configure…然后点击Tomcat-Home-的文件夹位置"><a href="#3-点击configure…然后点击Tomcat-Home-的文件夹位置" class="headerlink" title="3.点击configure…然后点击Tomcat Home 的文件夹位置"></a>3.点击configure…然后点击Tomcat Home 的文件夹位置</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-827816fc5b6cfeb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="4-选择位置，点击ok，然后点击apply进行设置"><a href="#4-选择位置，点击ok，然后点击apply进行设置" class="headerlink" title="4.选择位置，点击ok，然后点击apply进行设置"></a>4.选择位置，点击ok，然后点击apply进行设置</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-acff7800a90a4b23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-![image.png](http://upload-images.jianshu.io/upload_images/6895862-aee5e6b43f23faf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="5-点击左上角的-号，创建tomcat实例，选择刚才设置的tomcat-server然后选-local"><a href="#5-点击左上角的-号，创建tomcat实例，选择刚才设置的tomcat-server然后选-local" class="headerlink" title="5.点击左上角的+号，创建tomcat实例，选择刚才设置的tomcat server然后选 local"></a>5.点击左上角的+号，创建tomcat实例，选择刚才设置的tomcat server然后选 local</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-983b98ff923d3954.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="6-点击Fix按钮设置tomcat-war包"><a href="#6-点击Fix按钮设置tomcat-war包" class="headerlink" title="6.点击Fix按钮设置tomcat war包"></a>6.点击Fix按钮设置tomcat war包</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-13e72db4b19845ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-![image.png](http://upload-images.jianshu.io/upload_images/6895862-0219d465f1561fb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="7-点击apply-ok保存设置即可运行web项目"><a href="#7-点击apply-ok保存设置即可运行web项目" class="headerlink" title="7.点击apply ok保存设置即可运行web项目"></a>7.点击apply ok保存设置即可运行web项目</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-d45679af7ab274b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h4 id="设置jdk：默认idea会帮我们导入，可以设置多个jdk版本，具体设置方法如下"><a href="#设置jdk：默认idea会帮我们导入，可以设置多个jdk版本，具体设置方法如下" class="headerlink" title="设置jdk：默认idea会帮我们导入，可以设置多个jdk版本，具体设置方法如下"></a>设置jdk：默认idea会帮我们导入，可以设置多个jdk版本，具体设置方法如下</h4><h5 id="1-点击左上角的File-然后选择Project-Structure进行项目设置"><a href="#1-点击左上角的File-然后选择Project-Structure进行项目设置" class="headerlink" title="1.点击左上角的File 然后选择Project Structure进行项目设置"></a>1.点击左上角的File 然后选择Project Structure进行项目设置</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-635e101dfa28fc46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-
-![image.png](http://upload-images.jianshu.io/upload_images/6895862-401496a1735ec4ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="找不到的可以使用：-usr-libexec-java-home-V查找jdk，"><a href="#找不到的可以使用：-usr-libexec-java-home-V查找jdk，" class="headerlink" title="找不到的可以使用：/usr/libexec/java_home -V查找jdk，"></a>找不到的可以使用：/usr/libexec/java_home -V查找jdk，</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-91006adef1c09d95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-![image.png](http://upload-images.jianshu.io/upload_images/6895862-609c53a9b3cee3ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
-</code></pre><h5 id="8-给tomcat运行权限-打开终端输入："><a href="#8-给tomcat运行权限-打开终端输入：" class="headerlink" title="8.给tomcat运行权限 打开终端输入："></a>8.给tomcat运行权限 打开终端输入：</h5><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /Applications/apache-tomcat-9.0.1/bin</div><div class="line">chmod 777 *.sh</div></pre></td></tr></table></figure>
-
-![image.png](http://upload-images.jianshu.io/upload_images/6895862-6aa2e7b89b0daf72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-</code></pre><h5 id="9-启动项目：点击右上角的debug按钮即可启动web项目：访问http-localhost-8080-即可看到hello-World界面"><a href="#9-启动项目：点击右上角的debug按钮即可启动web项目：访问http-localhost-8080-即可看到hello-World界面" class="headerlink" title="9.启动项目：点击右上角的debug按钮即可启动web项目：访问http://localhost:8080/即可看到hello World界面"></a>9.启动项目：点击右上角的debug按钮即可启动web项目：访问<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a>即可看到hello World界面</h5><pre><code>![image.png](http://upload-images.jianshu.io/upload_images/6895862-6b324a5194cff203.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-```` 结束语：以前一直就想把自己经历过的东西都分享出来，一直都没挤出时间，借朋友想尝试java开发之际，自己挤了点时间，把这些东西撸了出来，希望可以给刚接触idea 接触java的coder一些帮助，如有什么疑问也可以发我邮件  bi_jialin@163.com````
- #####感兴趣的也可以去我的博客逛逛，我也会不定期分享一些自己的想法，与君共勉[nickBi Blog传送门](https://bijialin.github.io)
-</code></pre></section>
-    
+    <section class="markdown-content"><%- page.content %></section>
+    <% if (page.tags && page.tags.length) { %>
       <div class="tags">
         <span>Tags:</span>
-        
-  <a href="/tags#JAVA idea mac" >
-    <span class="tag-code">JAVA idea mac</span>
-  </a>
-
+        <%- partial('_partial/tag', { tags: page.tags }) %>
       </div>
-    
+    <% } %>
     <div class="money-like">
       <div class="reward-btn">
         赏
@@ -200,19 +144,21 @@
       <canvas id="share-qrcode"></canvas>
       <p class="notice">扫描二维码，分享此文章</p>
     </div>
-    
+    <% if (theme.gitment_owner) { %>
+      <div id="comments"></div>
+    <% } else { %>
       <!-- UY BEGIN -->
       <div id="uyan_frame"></div>
       <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
       <!-- UY END -->
-    
+    <% } %>
   </article>
 </main>
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2017/11/24/installIdeaOnMacAndSetJavaEnveriment/';
-    var banner = ''
+    var url = '<%= config.url %>/<%= page.path %>';
+    var banner = '<%= page.banner %>'
     if (banner !== 'undefined') {
       $('#article-banner').css({
         'background-image': 'url(' + banner + ')'
@@ -259,15 +205,15 @@
     });
 
     // gitment
-    var gitmentConfig = "";
+    var gitmentConfig = "<%= theme['gitment_owner'] %>";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "mac下idea的安装及开发环境的配置",
-        owner: "",
-        repo: "",
+        id: "<%- page.title %>",
+        owner: "<%= theme['gitment_owner'] %>",
+        repo: "<%= theme['gitment_repo'] %>",
         oauth: {
-          client_id: "",
-          client_secret: ""
+          client_id: "<%= theme['gitment_oauth_id'] %>",
+          client_secret: "<%= theme['gitment_oauth_secret'] %>"
         },
         theme: {
           render(state, instance) {
