@@ -10,7 +10,7 @@
   
   <title>
     
-      NickBi blog
+      Tags | NickBi blog
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -109,55 +109,81 @@
 </header>
 
     <div id="article-banner">
-  <h2>Archives</h2>
-  <p class="post-date">文章归档</p>
+  <h2>Tags</h2>
+  <p class="post-date">标签检索</p>
 </div>
-<main class="app-body" id="archives">
-  
-  
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2017
-  </h1>
-  <div class="section-list">
+<main class="app-body">
+  <div id="tag-cloud">
     
+      <a class="tag3" data-name="tag-支付宝对接">支付宝对接</a>
     
-      <div class="section-list-item">
-        <a href="/2017/11/24/installIdeaOnMacAndSetJavaEnveriment/" class="archive-title">installIdeaOnMacAndSetJavaEnveriment</a>
-        <p class="archive-date">11-24</p>
-      </div>
+      <a class="tag0" data-name="tag-centOS">centOS</a>
     
-      <div class="section-list-item">
-        <a href="/2017/09/07/centos7-0-install-nginx/" class="archive-title">centos7.0安装nginx开启ipatables</a>
-        <p class="archive-date">09-07</p>
-      </div>
+      <a class="tag2" data-name="tag-nginx">nginx</a>
     
-      <div class="section-list-item">
-        <a href="/2017/09/07/redis-queue-list/" class="archive-title">redis的有序集合实现一个高效订单排队后台</a>
-        <p class="archive-date">09-07</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/09/07/alipay-java/" class="archive-title">支付宝对接java后端</a>
-        <p class="archive-date">09-07</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2017/09/06/hello-world/" class="archive-title">Hello World</a>
-        <p class="archive-date">09-06</p>
-      </div>
+      <a class="tag2" data-name="tag-redis">redis</a>
     
   </div>
-</section>
   
+    <div class="tag-list">
+      <h3 class="tag-name" id="tag-支付宝对接">支付宝对接</h3>
+      
+        <ul class="tag-preview">
+          <li>
+            <a href="/2017/09/07/alipay-java/">支付宝对接java后端</a>
+          </li>
+        </ul>
+        
+    </div>
+    
+    <div class="tag-list">
+      <h3 class="tag-name" id="tag-centOS">centOS</h3>
+      
+        <ul class="tag-preview">
+          <li>
+            <a href="/2017/09/07/centos7-0-install-nginx/">centos7.0安装nginx开启ipatables</a>
+          </li>
+        </ul>
+        
+    </div>
+    
+    <div class="tag-list">
+      <h3 class="tag-name" id="tag-nginx">nginx</h3>
+      
+        <ul class="tag-preview">
+          <li>
+            <a href="/2017/09/07/centos7-0-install-nginx/">centos7.0安装nginx开启ipatables</a>
+          </li>
+        </ul>
+        
+    </div>
+    
+    <div class="tag-list">
+      <h3 class="tag-name" id="tag-redis">redis</h3>
+      
+        <ul class="tag-preview">
+          <li>
+            <a href="/2017/09/07/redis-queue-list/">redis的有序集合实现一个高效订单排队后台</a>
+          </li>
+        </ul>
+        
+    </div>
+    
 </main>
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/archives/2017/09/index.html';
-    $('#article-banner').geopattern(url);
-    $('.header').removeClass('fixed-header');
+    var url = 'http://yoursite.com/tags/index.html'
+    $('#article-banner').geopattern(url)
+    $('.header').removeClass('fixed-header')
+
+    var tag = location.hash.replace('#', '')
+    if (tag) {
+      var tagId = "#tag-" + tag;
+      $("html, body").animate({
+        scrollTop: $(tagId).offset().top 
+      }, 400)
+    }
   })();
 </script>
     <div class="scroll-top">
