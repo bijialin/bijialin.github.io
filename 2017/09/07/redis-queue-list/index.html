@@ -109,21 +109,54 @@
 </header>
 
     <div id="article-banner">
-  <h2><%- page.title %></h2>
-  <p class="post-date"><%- date(page.date, "YYYY-MM-DD") %></p>
+  <h2>redis的有序集合实现一个高效订单排队后台</h2>
+  <p class="post-date">2017-09-07</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><%- page.content %></section>
-    <% if (page.tags && page.tags.length) { %>
+    <section class="markdown-content"><blockquote>
+<p>本文为转载文章,原文地址：<a href="http://www.leoox.com/?p=343" target="_blank" rel="external">巧用redis的有序集合实现一个高效订单排队后台</a></p>
+</blockquote>
+<p>假设我们手上有这么一个需求：</p>
+<ul>
+<li>接受用户的订单数据，但因为订单处理需要一定的时间，所以只能后台先保存订单数据，对用户进行排队操作。当然这个排队操作，用户是不透明的，某些用户的请求可能被优先处理。</li>
+<li>用户很关心自己订单目前的处理进度，即类似去银行排队拿号的时候，小票上显示“你前面还有多少人在排队”。所以后台要能告知用户目前他的订单进度。</li>
+<li>能给用户或者产品经理显示目前正在排队的订单数有多少。这样才能让用户知道我们的业务多么的有市场。</li>
+</ul>
+<h2 id="一、需求分析"><a href="#一、需求分析" class="headerlink" title="一、需求分析"></a>一、需求分析</h2><ul>
+<li>需求1可以理解为写操作，需要后端存储数据。</li>
+<li>需求2，需求3可以理解为读操作，而且可以预见这个读操作应该比写操作频繁。如果用户很关注她的订单进展，说不定会一直刷新查看他的订单排队情况。</li>
+</ul>
+<h2 id="二、实现方案-—-MySQL"><a href="#二、实现方案-—-MySQL" class="headerlink" title="二、实现方案 — MySQL"></a>二、实现方案 — MySQL</h2><p>用户的订单数据肯定得持久化存储，MySQL是一个不错的选择。既然需求这么简单，无非一个订单数据嘛。暂且用一张表“订单表（T_Order）”来保存正在排队的订单，已经处理完毕的订单则从T_Order表迁移至“（历史订单表T_History_Order）”。这样的好处避免订单表数据量太大，提高读写性能。<br>1.需求1完成订单的入库，显然就是一个insert语句了，类似：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T_Order(...) <span class="keyword">values</span>(...);</div></pre></td></tr></table></figure>
+<p>2.需求2查询自己订单的排队情况，那肯定看比自己订单时间还早的用户有多少人了。这些比自己下单时间还早的人，就是排在自己前面的人了。假设一个用户同时只能有一个订单在排队。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 先查出自己订单时间, 假设是1429389316</div><div class="line"><span class="keyword">select</span> orderTime <span class="keyword">from</span> T_Order <span class="keyword">where</span> uid=<span class="number">8888</span>;</div><div class="line"></div><div class="line"># 再查有多少人的订单时间比自己的早</div><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(orderTime) <span class="keyword">from</span> T_Order <span class="keyword">where</span> orderTime &lt;= <span class="number">1429389316</span>;</div><div class="line"></div><div class="line"># 先查出自己订单时间, 假设是1429389316</div><div class="line"><span class="keyword">select</span> orderTime <span class="keyword">from</span> T_Order <span class="keyword">where</span> uid=<span class="number">8888</span>;</div><div class="line"> </div><div class="line"># 再查有多少人的订单时间比自己的早</div><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(orderTime) <span class="keyword">from</span> T_Order <span class="keyword">where</span> orderTime &lt;= <span class="number">1429389316</span>;</div></pre></td></tr></table></figure></p>
+<p>3.需求3查询所有的订单数，显然就是一个select语句了，类似：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(<span class="number">1</span>) <span class="keyword">from</span> T_Order;</div></pre></td></tr></table></figure></p>
+<h2 id="三、遇到问题"><a href="#三、遇到问题" class="headerlink" title="三、遇到问题"></a>三、遇到问题</h2><p>互联网的精髓就是“小步快跑，快速迭代”。用MySQL快速完成需求，面向用户服务后。初期阶段，一切ok。但是当这个业务运营得好，用户量大的时候，就会发现用户经常投诉“我查询自己的订单排队进度，经常报错”。甚至处理订单的同事，也经常抱怨从订单系统里面查看订单，非常缓慢。select count 操作基本都是全表扫描操作，看来MySQL面对这么大规模的全表查询操作，还是有点吃力。</p>
+<h2 id="四、解决查询性能问题"><a href="#四、解决查询性能问题" class="headerlink" title="四、解决查询性能问题"></a>四、解决查询性能问题</h2><p>NoSQL在互联网领域的江湖地位已经很牢靠了，看来得请他老人家出来救场了。没错，使用Redis的有序集合(sorted sets)数据结构，就可以完美的解决这个问题。因为有序集合底层的实现是跳表这种数据结构，时间复杂度是logN，即使有序集合里面的订单有100万之多，耗时也基本都是纳秒级别（基本不到1毫秒）。</p>
+<p>【注意】有序集合有另外一种底层实现—-压缩列表。不过要求是，有序集合的元素个数小于128。这对于一个庞大的订单后台，元素个数绝对不仅仅128。</p>
+<p>假设我们在的有序集合名字就叫做：task，那么：<br>1、用户提交一个订单，除了持久化到MySQL之外，我们再异步的写入redis中。比如用户uid=8888在1429389316这个时间点提交了一个订单，那么就往redis有序集合里面添加这个订单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; zadd task 1429389316 8888</div><div class="line">(integer) 1</div></pre></td></tr></table></figure>
+<p>2、用户要查询自己的订单排队情况，这时候我们只要查询redis的有序集合就可以了。命令为rank：<br>（为了方便演示，在8888用户之前，我们假设8885,8886,8887这3个用户已经提交了订单，而8889是在8888后提交的订单。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; zadd task 1429389316 8888</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; zadd task 1429389310 8887</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; zadd task 1429389309 8886</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; zadd task 1429389308 8885</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; zadd task 1429389326 8889</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; zrank task 8888</div><div class="line">(integer) 3</div><div class="line">127.0.0.1:6379&gt;</div></pre></td></tr></table></figure></p>
+<p>可见，仅仅通过一个rank命令就可以准确的反映出用户订单的排队情况。时间复杂度为logN。</p>
+<p>3、查询目前有多少正在排队的订单。这个就更简单了，直接一个zcard命令就可以了。而且时间复杂度是O(1)，因为redis的跳表本身已经存储有这个数据了，直接取出即可！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; zcard task</div><div class="line">(integer) 5</div><div class="line">127.0.0.1:6379&gt;</div></pre></td></tr></table></figure></p>
+<p>4、当这个订单被处理完成后，直接一个zrem命令将订单从有序集合中删除即可。时间复杂度为logN。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; zrange task 0 -1</div><div class="line">1) &quot;8885&quot;</div><div class="line">2) &quot;8886&quot;</div><div class="line">3) &quot;8887&quot;</div><div class="line">4) &quot;8888&quot;</div><div class="line">5) &quot;8889&quot;</div><div class="line">127.0.0.1:6379&gt; zrem task 8888</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; zrange task 0 -1</div><div class="line">1) &quot;8885&quot;</div><div class="line">2) &quot;8886&quot;</div><div class="line">3) &quot;8887&quot;</div><div class="line">4) &quot;8889&quot;</div><div class="line">127.0.0.1:6379&gt;</div></pre></td></tr></table></figure></p>
+<p>因为Redis基本都是内存操作，而且有序集合的底层实现是跳表这种效率媲美平衡树，但是实现又简单的数据结构，从而完美的释放了MySQL的读压力。</p>
+<p>五、redis之跳表</p>
+<p>既然redis的有序集合这么给力的解决了我们的问题，那我们很有必要记住redis为我们做了什么，简单分析一下redis是如何通过跳表这种数据结构，通过zadd，zrank，zcard，zrem来满足我们的需求的！</p>
+</section>
+    
       <div class="tags">
         <span>Tags:</span>
-        <%- partial('_partial/tag', { tags: page.tags }) %>
+        
+  <a href="/tags#redis" >
+    <span class="tag-code">redis</span>
+  </a>
+
       </div>
-    <% } %>
+    
     <div class="money-like">
       <div class="reward-btn">
         赏
@@ -144,21 +177,19 @@
       <canvas id="share-qrcode"></canvas>
       <p class="notice">扫描二维码，分享此文章</p>
     </div>
-    <% if (theme.gitment_owner) { %>
-      <div id="comments"></div>
-    <% } else { %>
+    
       <!-- UY BEGIN -->
       <div id="uyan_frame"></div>
       <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
       <!-- UY END -->
-    <% } %>
+    
   </article>
 </main>
 
 <script>
   (function () {
-    var url = '<%= config.url %>/<%= page.path %>';
-    var banner = '<%= page.banner %>'
+    var url = 'http://yoursite.com/2017/09/07/redis-queue-list/';
+    var banner = ''
     if (banner !== 'undefined') {
       $('#article-banner').css({
         'background-image': 'url(' + banner + ')'
@@ -205,15 +236,15 @@
     });
 
     // gitment
-    var gitmentConfig = "<%= theme['gitment_owner'] %>";
+    var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "<%- page.title %>",
-        owner: "<%= theme['gitment_owner'] %>",
-        repo: "<%= theme['gitment_repo'] %>",
+        id: "redis的有序集合实现一个高效订单排队后台",
+        owner: "",
+        repo: "",
         oauth: {
-          client_id: "<%= theme['gitment_oauth_id'] %>",
-          client_secret: "<%= theme['gitment_oauth_secret'] %>"
+          client_id: "",
+          client_secret: ""
         },
         theme: {
           render(state, instance) {

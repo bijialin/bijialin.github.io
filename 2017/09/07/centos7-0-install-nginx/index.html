@@ -109,21 +109,76 @@
 </header>
 
     <div id="article-banner">
-  <h2><%- page.title %></h2>
-  <p class="post-date"><%- date(page.date, "YYYY-MM-DD") %></p>
+  <h2>centos7.0安装nginx开启ipatables</h2>
+  <p class="post-date">2017-09-07</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
 </div>
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"><%- page.content %></section>
-    <% if (page.tags && page.tags.length) { %>
+    <section class="markdown-content"><blockquote>
+<p>本文环境为：virtualbox+centos7.3+nginx</p>
+</blockquote>
+<h2 id="一-nginx安装"><a href="#一-nginx安装" class="headerlink" title="一. nginx安装"></a>一. nginx安装</h2><h3 id="1-nginx安装环境"><a href="#1-nginx安装环境" class="headerlink" title="1 nginx安装环境"></a>1 nginx安装环境</h3><blockquote>
+<p>nginx是C语言开发，建议在linux上运行，本教程使用Centos7.3作为安装环境。</p>
+</blockquote>
+<h4 id="n-gcc"><a href="#n-gcc" class="headerlink" title="n gcc"></a>n gcc</h4><p>安装nginx需要先将官网下载的源码进行编译，编译依赖gcc环境，如果没有gcc环境，需要安装gcc:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yum install gcc-c++ -y</div></pre></td></tr></table></figure></p>
+<h4 id="n-PCRE"><a href="#n-PCRE" class="headerlink" title="n PCRE"></a>n PCRE</h4><p>PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yum install -y pcre pcre-devel</div></pre></td></tr></table></figure></p>
+<p>注：pcre-devel是使用pcre开发的一个二次开发库。nginx也需要此库。</p>
+<h4 id="n-zlib"><a href="#n-zlib" class="headerlink" title="n zlib"></a>n zlib</h4><p>zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yum install -y zlib zlib-devel</div></pre></td></tr></table></figure></p>
+<h4 id="n-openssl"><a href="#n-openssl" class="headerlink" title="n openssl"></a>n openssl</h4><p>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。<br>nginx不仅支持http协议，还支持https（即在ssl协议上传输http），所以需要在linux安装openssl库。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yum install -y openssl openssl-devel</div></pre></td></tr></table></figure></p>
+<h3 id="2-编译安装"><a href="#2-编译安装" class="headerlink" title="2 编译安装"></a>2 编译安装</h3><p>将nginx-1.8.0.tar.gz拷贝至linux服务器。<br> 解压：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ tar -zxvf nginx-1.8.0.tar.gz</div><div class="line">$ cd nginx-1.8.0</div></pre></td></tr></table></figure></p>
+<h4 id="1、-configure"><a href="#1、-configure" class="headerlink" title="1、 configure"></a>1、 configure</h4><p>./configure –help查询详细参数（参考本教程附录部分：nginx编译参数）</p>
+<p>参数设置如下：</p>
+<blockquote>
+<p>./configure \<br>–prefix=/usr/local/nginx \<br>–pid-path=/var/run/nginx/nginx.pid \<br>–lock-path=/var/lock/nginx.lock \<br>–error-log-path=/var/log/nginx/error.log \<br>–http-log-path=/var/log/nginx/access.log \<br>–with-http_gzip_static_module \<br>–with-http_ssl_module \<br>–http-client-body-temp-path=/var/temp/nginx/client \<br>–http-proxy-temp-path=/var/temp/nginx/proxy \<br>–http-fastcgi-temp-path=/var/temp/nginx/fastcgi \<br>–http-uwsgi-temp-path=/var/temp/nginx/uwsgi \<br>–http-scgi-temp-path=/var/temp/nginx/scgi<br>–add-module=/opt/fastdfs-nginx-module/src/</p>
+</blockquote>
+<p>注意：上边将临时文件目录指定为/var/temp/nginx，需要在/var下创建temp及nginx目录</p>
+<h4 id="2、-编译安装"><a href="#2、-编译安装" class="headerlink" title="2、 编译安装"></a>2、 编译安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ make</div><div class="line">$ make  install</div></pre></td></tr></table></figure>
+<p>安装成功查看安装目录 ：</p>
+<h4 id="3-启动nginx"><a href="#3-启动nginx" class="headerlink" title="3 启动nginx"></a>3 启动nginx</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd /usr/local/nginx/sbin/</div><div class="line">$ ./nginx</div></pre></td></tr></table></figure>
+<h4 id="查询nginx进程："><a href="#查询nginx进程：" class="headerlink" title="查询nginx进程："></a>查询nginx进程：</h4><p>15098是nginx主进程的进程id，15099是nginx工作进程的进程id</p>
+<p>注意：执行./nginx启动nginx，这里可以-c指定加载的nginx配置文件，如下：<br>./nginx -c /usr/local/nginx/conf/nginx.conf<br>如果不指定-c，nginx在启动时默认加载conf/nginx.conf文件，此文件的地址也可以在编译安装nginx时指定./configure的参数（–conf-path= 指向配置文件（nginx.conf））</p>
+<h4 id="4-停止nginx"><a href="#4-停止nginx" class="headerlink" title="4 停止nginx"></a>4 停止nginx</h4><ul>
+<li>方式1，快速停止：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd /usr/local/nginx/sbin</div><div class="line">$ ./nginx -s stop</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程。</p>
+<ul>
+<li>方式2，完整停止(建议使用)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd /usr/local/nginx/sbin</div><div class="line">$ ./nginx -s quit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此方式停止步骤是待nginx进程处理任务完毕进行停止。</p>
+<h4 id="5-重启nginx"><a href="#5-重启nginx" class="headerlink" title="5 重启nginx"></a>5 重启nginx</h4><ul>
+<li>方式1，先停止再启动（建议使用）：<br>对nginx进行重启相当于先停止nginx再启动nginx，即先执行停止命令再执行启动命令。<br>如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./nginx -s quit</div><div class="line">./nginx</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="下面开始开启iptables"><a href="#下面开始开启iptables" class="headerlink" title="下面开始开启iptables"></a>下面开始开启iptables</h5><h2 id="二-启动iptables"><a href="#二-启动iptables" class="headerlink" title="二. 启动iptables"></a>二. 启动iptables</h2><h3 id="1-安装iptable-iptable-service"><a href="#1-安装iptable-iptable-service" class="headerlink" title="1.安装iptable iptable-service"></a>1.安装iptable iptable-service</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 先检查是否安装了iptables</div><div class="line">$ service iptables status</div><div class="line"># 安装iptables</div><div class="line">$ yum install -y iptables</div><div class="line"># 升级iptables</div><div class="line">$ yum update iptables </div><div class="line"># 安装iptables.services</div><div class="line">$ yum install iptables.services</div></pre></td></tr></table></figure>
+<h3 id="2-禁用-停止自带的firewalld服务"><a href="#2-禁用-停止自带的firewalld服务" class="headerlink" title="2.禁用/停止自带的firewalld服务"></a>2.禁用/停止自带的firewalld服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 停止firewalld服务</div><div class="line">$ systemctl stop firewalld</div><div class="line"># 禁用firewalld服务</div><div class="line">$ systemctl mask firewalld</div></pre></td></tr></table></figure>
+<p>安装iptables<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum search iptables</div><div class="line">yum install iptables-services</div></pre></td></tr></table></figure></p>
+<h3 id="3-设置规则，开启80端口"><a href="#3-设置规则，开启80端口" class="headerlink" title="3.设置规则，开启80端口"></a>3.设置规则，开启80端口</h3><blockquote>
+<p>开启80端口<br>-A INPUT -p tcp –dport 80 -j ACCEPT</p>
+</blockquote>
+<h3 id="4-开启iptables服务"><a href="#4-开启iptables服务" class="headerlink" title="4.开启iptables服务"></a>4.开启iptables服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 注册iptables服务</div><div class="line"># 相当于以前的chkconfig iptables on</div><div class="line">$ systemctl enable iptables.service</div><div class="line"># 开启服务</div><div class="line">$ systemctl start iptables.service</div><div class="line"># 查看状态</div><div class="line">$ systemctl status iptables.service</div></pre></td></tr></table></figure>
+<blockquote>
+<p>相关文章：<br>        <a href="http://www.cnblogs.com/kreo/p/4368811.html" target="_blank" rel="external">CentOS7安装iptables防火墙</a></p>
+</blockquote>
+</section>
+    
       <div class="tags">
         <span>Tags:</span>
-        <%- partial('_partial/tag', { tags: page.tags }) %>
+        
+  <a href="/tags#centOS" >
+    <span class="tag-code">centOS</span>
+  </a>
+
+  <a href="/tags#nginx" >
+    <span class="tag-code">nginx</span>
+  </a>
+
       </div>
-    <% } %>
+    
     <div class="money-like">
       <div class="reward-btn">
         赏
@@ -144,21 +199,19 @@
       <canvas id="share-qrcode"></canvas>
       <p class="notice">扫描二维码，分享此文章</p>
     </div>
-    <% if (theme.gitment_owner) { %>
-      <div id="comments"></div>
-    <% } else { %>
+    
       <!-- UY BEGIN -->
       <div id="uyan_frame"></div>
       <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js"></script>
       <!-- UY END -->
-    <% } %>
+    
   </article>
 </main>
 
 <script>
   (function () {
-    var url = '<%= config.url %>/<%= page.path %>';
-    var banner = '<%= page.banner %>'
+    var url = 'http://yoursite.com/2017/09/07/centos7-0-install-nginx/';
+    var banner = ''
     if (banner !== 'undefined') {
       $('#article-banner').css({
         'background-image': 'url(' + banner + ')'
@@ -205,15 +258,15 @@
     });
 
     // gitment
-    var gitmentConfig = "<%= theme['gitment_owner'] %>";
+    var gitmentConfig = "";
     if (gitmentConfig != "undefined") {
       var gitment = new Gitment({
-        id: "<%- page.title %>",
-        owner: "<%= theme['gitment_owner'] %>",
-        repo: "<%= theme['gitment_repo'] %>",
+        id: "centos7.0安装nginx开启ipatables",
+        owner: "",
+        repo: "",
         oauth: {
-          client_id: "<%= theme['gitment_oauth_id'] %>",
-          client_secret: "<%= theme['gitment_oauth_secret'] %>"
+          client_id: "",
+          client_secret: ""
         },
         theme: {
           render(state, instance) {
